@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Détail de la commune</title>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-sm-12 mt-2 text-center">
                             <input form="saveForm" class="btn btn-primary" type="submit" value="Enregistrer"/>
-                            <a th:unless="${newCommune}" href="/communes/01009/delete" class="btn btn-danger">Supprimer</a>
+                            <a th:unless="${newCommune}" th:href="|/communes/${commune.codeInsee}/delete|" class="btn btn-danger">Supprimer</a>
                         </div>
                 </form>
             </div>
@@ -101,10 +101,10 @@
             </div>
             <div class="col-sm-12 text-center mt-2">
 
-                <form action="/communes/01009" method="get" class="form-inline mb-2">
+                <form th:action="|/communes/${commune.codeInsee}|" method="get" class="form-inline mb-2">
                     <label for="perimetre">Communes dans un périmètre de&nbsp;</label>
                     <div class="input-group input-group-sm">
-                        <input type="number" name="perimetre" id="perimetre" class="form-control" value="10">
+                        <input type="number" name="perimetre" id="perimetre" class="form-control" th:value="${perimetre}">
                         <div class="input-group-append">
                             <span class="input-group-text">km</span>
                         </div>
@@ -113,35 +113,13 @@
                 </form>
             </div>
             <div class="col-sm-6">
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01098">Chazey Bons (01510) <span class="badge badge-primary float-right">2 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01141">Cuzieu (01300) <span class="badge badge-primary float-right">4 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01227">Magnieu (01300) <span class="badge badge-primary float-right">5 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01234">Marignieu (01300) <span class="badge badge-primary float-right">5 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01162">Flaxieu (01350) <span class="badge badge-primary float-right">7 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01372">Saint Martin De Bavel (01510) <span class="badge badge-primary float-right">7 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01117">Conzieu (01300) <span class="badge badge-primary float-right">8 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01286">Parves Et Nattages (01300) <span class="badge badge-primary float-right">8 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01208">Lavours (01350) <span class="badge badge-primary float-right">9 km</span></a></li>
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/communes/01233">Marchamp (01680) <span class="badge badge-primary float-right">9 km</span></a></li>
+                <ul class="list-group" th:each="communeProche : ${communesProches}">
+                    <a th:href="|/communes/${communeProche.codeInsee}|">
+                        [[${communeProche.nom}]] ([[${communeProche.codePostal}]])
+                        <span class="badge badge-primary float-right">
+                            [[${communeProche.getDistance(commune.latitude, commune.longitude)}]] km
+                        </span>
+                    </a>
                 </ul>
             </div>
 

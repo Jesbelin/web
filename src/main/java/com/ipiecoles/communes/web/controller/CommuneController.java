@@ -36,6 +36,7 @@ public class CommuneController {
         }
         //Récupérer les communes proches de celle-ci
         model.put("commune", commune.get());
+        model.put("perimetre", perimetre);
         model.put("communesProches", this.findCommunesProches(commune.get(), perimetre));
         model.put("newCommune", false);
         return "detail";
@@ -50,6 +51,14 @@ public class CommuneController {
         return "detail";
     }
 
+    @GetMapping("/communes/{codeInsee}/delete")
+    public String deleteCommune(
+            @PathVariable String codeInsee)
+    {
+        communeRepository.deleteById(codeInsee);
+        return "redirect:/";
+    }
+
     @PostMapping(value ="/communes", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String saveNewCommune(
             Commune commune,
@@ -58,7 +67,7 @@ public class CommuneController {
         // Ajouter un certain nombre de contrôles...
         commune = communeRepository.save(commune);
         model.put("commune", commune);
-        return "detail";
+        return "redirect:/communes/" + commune.getCodeInsee();
     }
 
     @PostMapping(value ="/communes/{codeInsee}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -69,8 +78,9 @@ public class CommuneController {
     {
         // Ajouter un certain nombre de contrôles...
         commune = communeRepository.save(commune);
-        model.put("commune", commune);
-        return "detail";
+        /* Au lieu de rediriger vers un template on redirige la page vers l'url de la page où elle était avant de faire l'enregistrement,
+        ça évite d'avoir la pop-up "confirmation renvoi formulaire" quand on réactualise notre page : */
+        return "redirect:/communes/" + commune.getCodeInsee();
     }
 
     /**

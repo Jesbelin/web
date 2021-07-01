@@ -53,11 +53,11 @@
                                 <!-- Choisir l'une des trois possibilités ci-dessous en fonction de ce que l'on a comme paramètres
                                 dans l'url. -->
                                 <!-- tri par code Insee descendant -->
-                                Code Insee <a th:href="|/?page=${page}&search=${search}&size=${size}&sortDirection=ASC&sortProperty=codeInsee|"><i class="fa fa-chevron-down"></i></a>
+                                Code Insee <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=codeInsee"><i class="fa fa-chevron-down"></i></a>
                                 <!-- tri par code Insee ascendant -->
-                                Code Insee <a th:href="|/?page=${page}&search=${search}&size=${size}&sortDirection=DESC&sortProperty=codeInsee|"><i class="fa fa-chevron-up"></i></a>
+                                Code Insee <a href="/?page=&search=&size=&sortDirection=DESC&sortProperty=codeInsee"><i class="fa fa-chevron-up"></i></a>
                                 <!-- tri par autre chose que le code Insee -->
-                                <a th:href="|/?page=${page}&search=${search}&size=${size}&sortDirection=ASC&sortProperty=codeInsee|">Code Insee</a>
+                                <!-- <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=codeInsee">Code Insee</a> -->
                             </span>
                         </div>
 
@@ -65,25 +65,25 @@
                     <th scope="col">
 
                         <div>
-                            <a href="/?page=&amp;search=&amp;size=&amp;sortDirection=ASC&amp;sortProperty=codePostal">Code Postal</a>
+                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=codePostal">Code Postal</a>
                         </div>
                     </th>
                     <th scope="col">
 
                         <div>
-                            <a href="/?page=&amp;search=&amp;size=&amp;sortDirection=ASC&amp;sortProperty=nom">Nom</a>
+                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=nom">Nom</a>
                         </div>
                     </th>
                     <th scope="col">
 
                         <div>
-                            <a href="/?page=&amp;search=&amp;size=&amp;sortDirection=ASC&amp;sortProperty=latitude">Latitude</a>
+                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=latitude">Latitude</a>
                         </div>
                     </th>
                     <th scope="col">
 
                         <div>
-                            <a href="/?page=&amp;search=&amp;size=&amp;sortDirection=ASC&amp;sortProperty=longitude">Longitude</a>
+                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=longitude">Longitude</a>
                         </div>
                     </th>
                     <th scope="col"></th>
@@ -98,6 +98,7 @@
                     <td th:text="${commune.latitude}">45.7873565333</td>
                     <td th:text="${commune.longitude}">5.65788307924</td>
                     <td><a th:href="|/communes/${commune.codeInsee}|">Détail</a></td>
+                    <td><a th:href="|/communes/${commune.codeInsee}/delete|" class="btn btn-danger">Supprimer</a></td>
                 </tr>
 
                 </tbody>
@@ -132,8 +133,7 @@
 
                             <!--activé pour les autres pages-->
                             <li class="page-item" th:unless="${communes.isFirst()}">
-                                <a class="page-link" th:href="|/?page=${page-1}&;search=${search}&;size=${size}&;sortDirection=&;sortProperty=|"
-                                >
+                                <a class="page-link" th:href="|/?page=${page-1}&;search=${search}&;size=${size}&;sortDirection=&;sortProperty=|">                                >
                                     &laquo;
                                 </a>
                             </li>

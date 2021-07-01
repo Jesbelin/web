@@ -46,8 +46,8 @@ public class IndexController {
         // Affichage des communes de 11 à 20 => page =1 et size = 10
         // Affichage des communes de 41 à 60 => page =2 et size = 20
 
-        model.put("start", 1); // A remplacer par la valeur dynamique
-        model.put("end", 10); // A remplacer par la valeur dynamique
+        model.put("start", (((size * page) + size) - (size - 1)));
+        model.put("end", (size * page) + size);
         model.put("page", page);
         return "list"; //Chemin du template (sans .html) à partir du dossier templates
     }
