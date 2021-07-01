@@ -12,6 +12,12 @@ Plus nécessaire du fait que l'on met le fragment listCommunes
 -->
 
 <div class="container" th:fragment="listCommunes">
+    <div th:if="${type}" th:class="|mt-1 alert alert-dismissible fade show alert-${type}|" role="alert">
+        <span th:utext="${message}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">X</span>
+        </button>
+    </div>
     <h2>Liste des communes </h2>
     <div class="row">
         <div class="col-lg-12">
@@ -22,16 +28,14 @@ Plus nécessaire du fait que l'on met le fragment listCommunes
                 <thead>
                 <tr>
                     <th scope="col">
-                        <div>
-
                             <span>
                                 <!-- Choisir l'une des trois possibilités ci-dessous en fonction de ce que l'on a comme paramètres
                                 dans l'url. -->
                                 <!-- tri par code Insee descendant -->
-                                <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=codeInsee"><i class="fa fa-chevron-down"></i></a>
+                                <a href="/?page=&search=&size=&sortDirection=DESC&sortProperty=codeInsee"><i class="fa fa-chevron-down"></i></a>
                                 Code Insee
                                 <!-- tri par code Insee ascendant -->
-                                <a href="/?page=&search=&size=&sortDirection=DESC&sortProperty=codeInsee"><i class="fa fa-chevron-up"></i></a>
+                                <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=codeInsee"><i class="fa fa-chevron-up"></i></a>
                                 <!-- tri par autre chose que le code Insee -->
                                 <!-- <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=codeInsee">Code Insee</a> -->
                             </span>
@@ -41,25 +45,44 @@ Plus nécessaire du fait que l'on met le fragment listCommunes
                     <th scope="col">
 
                         <div>
-                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=codePostal">Code Postal</a>
+                            <a href="/?page=&search=&size=&sortDirection=DESC&sortProperty=codePostal">
+                                <i class="fa fa-chevron-down"></i></a>
+                                Code Postal
+                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=codePostal">
+                                <i class="fa fa-chevron-up"></i></a>
                         </div>
                     </th>
                     <th scope="col">
 
                         <div>
-                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=nom">Nom</a>
+                            <!-- <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=nom">Nom</a> -->
+                            <a href="/?page=&search=&size=&sortDirection=DESC&sortProperty=nom">
+                                <i class="fa fa-chevron-down"></i></a>
+                            Nom
+                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=nom">
+                                <i class="fa fa-chevron-up"></i></a>
                         </div>
                     </th>
                     <th scope="col">
 
                         <div>
-                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=latitude">Latitude</a>
+                            <!-- <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=latitude">Latitude</a> -->
+                            <a href="/?page=&search=&size=&sortDirection=DESC&sortProperty=latitude">
+                                <i class="fa fa-chevron-down"></i></a>
+                            Latitude
+                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=latitude">
+                                <i class="fa fa-chevron-up"></i></a>
                         </div>
                     </th>
                     <th scope="col">
 
                         <div>
-                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=longitude">Longitude</a>
+                            <!-- <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=longitude">Longitude</a> -->
+                            <a href="/?page=&search=&size=&sortDirection=DESC&sortProperty=longitude">
+                                <i class="fa fa-chevron-down"></i></a>
+                            Longitude
+                            <a href="/?page=&search=&size=&sortDirection=ASC&sortProperty=longitude">
+                                <i class="fa fa-chevron-up"></i></a>
                         </div>
                     </th>
                     <th scope="col"></th>

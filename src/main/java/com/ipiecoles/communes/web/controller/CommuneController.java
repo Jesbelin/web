@@ -60,20 +60,32 @@ public class CommuneController {
 
     @GetMapping("/communes/{codeInsee}/delete")
     public String deleteCommune(
-            @PathVariable String codeInsee)
+            @PathVariable String codeInsee,
+            RedirectAttributes attributes)
     {
-        communeRepository.deleteById(codeInsee);
+        Optional<Commune> commune = communeRepository.findById(codeInsee);
+            if(commune.isPresent())
+        {
+            communeRepository.deleteById(codeInsee);
+        } else {
+            throw new EntityNotFoundException("Impossible de trouver la commune ayant pour code INSEE: " + codeInsee);
+        }
+        attributes.addFlashAttribute("type", "success");
+        attributes.addFlashAttribute("message", "Suppression de la commune effectué avec succès.");
         return "redirect:/";
     }
 
     @PostMapping(value ="/communes", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String saveNewCommune(
             Commune commune,
-            final ModelMap model)
+            final ModelMap model,
+            RedirectAttributes attributes)
     {
         // Ajouter un certain nombre de contrôles...
         commune = communeRepository.save(commune);
         model.put("commune", commune);
+        attributes.addFlashAttribute("type", "success");
+        attributes.addFlashAttribute("message", "Enregistrement de la nouvelle commune effectué avec succès.");
         return "redirect:/communes/" + commune.getCodeInsee();
     }
 

@@ -94,4 +94,5 @@ public class Commune {
 
         return Math.round(6371.009 * c);
     }
+
 }
