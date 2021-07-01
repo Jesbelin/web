@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +35,11 @@ public class CommuneController {
         Optional<Commune> commune = communeRepository.findById(codeInsee);
         if(commune.isEmpty()){
             //Gère une exception
+            // de façon simple, avec le globalExceptionHandler:
+            throw new EntityNotFoundException("Impossible de trouver la commune ayant pour code INSEE: " + codeInsee);
+            // un peu mieux:
+            //model.put("message", "Impossible de trouver la commune ayant pour code INSEE: " + codeInsee);
+            //return "error"; //template error qui affiche un message d'erreur
         }
         //Récupérer les communes proches de celle-ci
         model.put("commune", commune.get());
@@ -74,10 +81,13 @@ public class CommuneController {
     public String saveExistingCommune(
             Commune commune,
             @PathVariable String codeInsee,
-            final ModelMap model)
+            final ModelMap model,
+            RedirectAttributes attributes) //pour faire perdurer des attributes
     {
         // Ajouter un certain nombre de contrôles...
         commune = communeRepository.save(commune);
+        attributes.addFlashAttribute("type", "success");
+        attributes.addFlashAttribute("message", "Enregistrement de la commune effectué avec succès.");
         /* Au lieu de rediriger vers un template on redirige la page vers l'url de la page où elle était avant de faire l'enregistrement,
         ça évite d'avoir la pop-up "confirmation renvoi formulaire" quand on réactualise notre page : */
         return "redirect:/communes/" + commune.getCodeInsee();

@@ -40,7 +40,8 @@ public class IndexController {
         }
         model.put("communes", communes);
         model.put("nbCommunes", communes.getTotalElements());
-        model.put("pagesSizes", Arrays.asList("5", "10", "20", "50", "100"));
+        //supprimer les doubles quotes autour des nombres!
+        model.put("pageSizes", Arrays.asList(5, 10, 20, 50, 100));
 
         // Affichage des communes de 1 à 10 => page =0 et size = 10
         // Affichage des communes de 11 à 20 => page =1 et size = 10
@@ -49,6 +50,10 @@ public class IndexController {
         model.put("start", (((size * page) + size) - (size - 1)));
         model.put("end", (size * page) + size);
         model.put("page", page);
-        return "list"; //Chemin du template (sans .html) à partir du dossier templates
+        model.put("size", size);
+        model.put("template", "list");
+        model.put("fragment", "listCommunes");
+        //return "list"; //Chemin du template (sans .html) à partir du dossier templates
+        return "main";
     }
 }
