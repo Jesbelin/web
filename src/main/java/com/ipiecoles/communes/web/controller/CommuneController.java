@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -77,9 +79,11 @@ public class CommuneController {
 
     @PostMapping(value ="/communes", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String saveNewCommune(
-            Commune commune,
-            final ModelMap model,
-            RedirectAttributes attributes)
+            @Valid Commune commune,
+            //Juste après le paramètre marqué @Valid
+            final BindingResult result,
+            RedirectAttributes attributes,
+            final ModelMap model)
     {
         // Ajouter un certain nombre de contrôles...
         commune = communeRepository.save(commune);
@@ -89,20 +93,27 @@ public class CommuneController {
         return "redirect:/communes/" + commune.getCodeInsee();
     }
 
-    @PostMapping(value ="/communes/{codeInsee}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = "/communes/{codeInsee}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String saveExistingCommune(
-            Commune commune,
+            @Valid Commune commune,
+            //Juste après le paramètre marqué @Valid
+            final BindingResult result,
             @PathVariable String codeInsee,
             final ModelMap model,
-            RedirectAttributes attributes) //pour faire perdurer des attributes
-    {
-        // Ajouter un certain nombre de contrôles...
-        commune = communeRepository.save(commune);
-        attributes.addFlashAttribute("type", "success");
-        attributes.addFlashAttribute("message", "Enregistrement de la commune effectué avec succès.");
-        /* Au lieu de rediriger vers un template on redirige la page vers l'url de la page où elle était avant de faire l'enregistrement,
-        ça évite d'avoir la pop-up "confirmation renvoi formulaire" quand on réactualise notre page : */
-        return "redirect:/communes/" + commune.getCodeInsee();
+            RedirectAttributes attributes) {
+        //S'il n'y a pas d'erreurs de validation sur le paramètre commune
+        if (!result.hasErrors()){
+            commune = communeRepository.save(commune);
+            attributes.addFlashAttribute("type", "success");
+            attributes.addFlashAttribute("message", "Enregistrement de la commune effectué !");
+            return "redirect:/communes/" + commune.getCodeInsee();
+        }
+        //S'il y a des erreurs...
+        //Possibilité 1 : Rediriger l'utilisateur vers la page générique d'erreur
+        //Possibilité 2 : Laisse sur la même page en affichant les erreurs pour chaque champ
+        model.addAttribute("type", "danger");
+        model.addAttribute("message", "Erreur lors de la sauvegarde de la commune");
+        return "detail";
     }
 
     /**
