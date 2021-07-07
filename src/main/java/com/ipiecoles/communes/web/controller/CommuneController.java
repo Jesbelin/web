@@ -4,6 +4,8 @@ import com.ipiecoles.communes.web.model.Commune;
 import com.ipiecoles.communes.web.repository.CommuneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -28,6 +30,11 @@ public class CommuneController {
     @Autowired
     private CommuneRepository communeRepository;
 
+    //Accessible uniquement aux utilisateurs connectés
+    @PreAuthorize("isAuthenticated()")
+    //Accessible uniquement à un rôle particulier
+    //@Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/communes/{codeInsee}")
     public String getCommune(
             @PathVariable String codeInsee,
@@ -85,12 +92,21 @@ public class CommuneController {
             RedirectAttributes attributes,
             final ModelMap model)
     {
-        // Ajouter un certain nombre de contrôles...
-        commune = communeRepository.save(commune);
-        model.put("commune", commune);
-        attributes.addFlashAttribute("type", "success");
-        attributes.addFlashAttribute("message", "Enregistrement de la nouvelle commune effectué avec succès.");
-        return "redirect:/communes/" + commune.getCodeInsee();
+        //S'il n'y a pas d'erreurs de validation sur le paramètre commune
+        if (!result.hasErrors()){
+            commune = communeRepository.save(commune);
+            model.put("commune", commune);
+            attributes.addFlashAttribute("type", "success");
+            attributes.addFlashAttribute("message", "Enregistrement de la nouvelle commune effectué avec succès.");
+            return "redirect:/communes/" + commune.getCodeInsee();
+        }
+        //S'il y a des erreurs...
+        //Possibilité 1 : Rediriger l'utilisateur vers la page générique d'erreur
+        //Possibilité 2 : Laisse sur la même page en affichant les erreurs pour chaque champ
+        model.addAttribute("type", "danger");
+        model.addAttribute("message", "Erreur lors de la sauvegarde de la commune");
+        model.put("newCommune", true);
+        return "detail";
     }
 
     @PostMapping(value = "/communes/{codeInsee}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
