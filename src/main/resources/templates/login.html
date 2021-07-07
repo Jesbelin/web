@@ -10,17 +10,17 @@
         <h2>Se connecter</h2>
         <!--Formulaire avec attribut action /login avec méthode post-->
         <form th:action="@{/login}" method="post">
-            <!--        Champ username-->
+            <!-- Champ username -->
             <div class="form-group">
                 <label for="username">Nom d'utilisateur</label> <!-- >username car c'est ce qu'on a défini au niveau de WebSecurityConfiguration -->
                 <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" class="form-control">
             </div>
-            <!--        Champ password-->
+            <!-- Champ password -->
             <div class="form-group">
                 <label for="password">Mot de passe</label>
                 <input type="password" placeholder="Mot de passe" id="password" name="password" class="form-control">
             </div>
-            <!--        Bouton submit-->
+            <!-- Bouton submit -->
             <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
         </form>
     </div>

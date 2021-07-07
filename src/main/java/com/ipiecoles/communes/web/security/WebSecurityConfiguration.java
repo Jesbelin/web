@@ -45,7 +45,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //La page d'accueil / ...
-                .antMatchers("/")
+                .antMatchers("/", "/register")
                 //... est accessible à tous
                 .permitAll()
                 //Gestion des accès avec les rôles (les 2 lignes suivantes)
