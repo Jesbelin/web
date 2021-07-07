@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
     <head th:replace="fragments/header :: head('Détail de la commune')"></head>
 </head>
@@ -96,9 +96,11 @@
 
                             </div>
                         </div>
-                        <div class="col-sm-12 mt-2 text-center">
-                            <input form="saveForm" class="btn btn-primary" type="submit" value="Enregistrer"/>
-                            <a th:unless="${newCommune}" th:href="|/communes/${commune.codeInsee}/delete|" class="btn btn-danger">Supprimer</a>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <div class="col-sm-12 mt-2 text-center">
+                                <input form="saveForm" class="btn btn-primary" type="submit" value="Enregistrer"/>
+                                <a th:unless="${newCommune}" th:href="|/communes/${commune.codeInsee}/delete|" class="btn btn-danger">Supprimer</a>
+                            </div>
                         </div>
                 </form>
             </div>

@@ -16,8 +16,10 @@ import java.util.Arrays;
 @Controller
 public class IndexController {
 
+
     @Autowired
     private CommuneRepository communeRepository;
+
 
     @GetMapping(value = "/")
     public String index(
@@ -25,7 +27,7 @@ public class IndexController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "codeInsee") String sortProperty,
             @RequestParam(defaultValue = "ASC") String sortDirection,
-            @RequestParam(required = false) String search, //false pour dire que le paramètre search n'est pas obligatoire dans l'url
+            @RequestParam(required = false) String search,
             final ModelMap model) {
 
         //Constituer un PageRequest
@@ -40,20 +42,17 @@ public class IndexController {
         }
         model.put("communes", communes);
         model.put("nbCommunes", communes.getTotalElements());
-        //supprimer les doubles quotes autour des nombres!
-        model.put("pageSizes", Arrays.asList(5, 10, 20, 50, 100));
+        model.put("pageSizes", Arrays.asList(5, 10, 20, 50, 100)); // ${chaine1 == chaine2} => problème
+        model.put("size", size);
+        model.put("search", search);
+        model.put("sortDirection", sortDirection);
+        model.put("sortProperty", sortProperty);
 
-        // Affichage des communes de 1 à 10 => page =0 et size = 10
-        // Affichage des communes de 11 à 20 => page =1 et size = 10
-        // Affichage des communes de 41 à 60 => page =2 et size = 20
 
         model.put("start", (((size * page) + size) - (size - 1)));
         model.put("end", (size * page) + size);
         model.put("page", page);
-        model.put("size", size);
-        model.put("template", "list");
-        model.put("fragment", "listCommunes");
-        //return "list"; //Chemin du template (sans .html) à partir du dossier templates
-        return "main";
+        return "list"; //Chemin du template (sans .html) à partir du dossier templates
+        //return "main";
     }
 }
