@@ -27,7 +27,7 @@ public class IndexController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "codeInsee") String sortProperty,
             @RequestParam(defaultValue = "ASC") String sortDirection,
-            @RequestParam(required = false) String search,
+            @RequestParam(required = false, defaultValue = "") String search,
             final ModelMap model) {
 
         //Constituer un PageRequest

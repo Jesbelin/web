@@ -17,7 +17,7 @@
             </div>
             <div  th:unless="${#strings.equals(sortProperty, 'codeInsee')}">
                 Code Insee
-                <a th:href="|/?page=${page}&search=&size=${size}&sortDirection=ASC&sortProperty=codeInsee|"><i class="fa fa-chevron-up"></i></a>
+                <a th:href="|/?page=${page}&search=${search}&size=${size}&sortDirection=ASC&sortProperty=codeInsee|"><i class="fa fa-chevron-up"></i></a>
             </div>
         </th>
 
@@ -29,7 +29,7 @@
             </div>
             <div  th:unless="${#strings.equals(sortProperty, 'codePostal')}">
                 Code Postal
-                <a th:href="|/?page=${page}&search=&size=${size}&sortDirection=ASC&sortProperty=codePostal|"><i class="fa fa-chevron-up"></i></a>
+                <a th:href="|/?page=${page}&search=${search}&size=${size}&sortDirection=ASC&sortProperty=codePostal|"><i class="fa fa-chevron-up"></i></a>
             </div>
         </th>
 
@@ -42,7 +42,7 @@
             </div>
             <div  th:unless="${#strings.equals(sortProperty, 'nom')}">
                 Nom
-                <a th:href="|/?page=${page}&search=&size=${size}&sortDirection=ASC&sortProperty=nom|"><i class="fa fa-chevron-up"></i></a>
+                <a th:href="|/?page=${page}&search=${search}&size=${size}&sortDirection=ASC&sortProperty=nom|"><i class="fa fa-chevron-up"></i></a>
             </div>
         </th>
         <th scope="col">
@@ -54,7 +54,7 @@
             </div>
             <div  th:unless="${#strings.equals(sortProperty, 'latitude')}">
                 Latitude
-                <a th:href="|/?page=${page}&search=&size=${size}&sortDirection=ASC&sortProperty=latitude|"><i class="fa fa-chevron-up"></i></a>
+                <a th:href="|/?page=${page}&search=${search}&size=${size}&sortDirection=ASC&sortProperty=latitude|"><i class="fa fa-chevron-up"></i></a>
             </div>
         </th>
         <th scope="col">
@@ -66,7 +66,7 @@
             </div>
             <div  th:unless="${#strings.equals(sortProperty, 'longitude')}">
                 Longitude
-                <a th:href="|/?page=${page}&search=&size=${size}&sortDirection=ASC&sortProperty=longitude|"><i class="fa fa-chevron-up"></i></a>
+                <a th:href="|/?page=${page}&search=${search}&size=${size}&sortDirection=ASC&sortProperty=longitude|"><i class="fa fa-chevron-up"></i></a>
             </div>
         </th>
         <th scope="col"></th>
@@ -116,7 +116,7 @@
 
                     <!--activé pour les autres pages-->
                     <li class="page-item" th:unless="${communes.isFirst()}">
-                        <a class="page-link" th:href="|/?page=${page-1}&;search=${search}&;size=${size}&;sortDirection=&;sortProperty=|">
+                        <a class="page-link" th:href="|/?page=${page-1}&search=${search}&size=${size}&sortDirection=${sortDirection}&sortProperty=${sortProperty}|">
                             &laquo;
                         </a>
                     </li>
@@ -167,8 +167,8 @@
                     </li>
                     <!--activé pour les autres pages-->
                     <li class="page-item" th:unless="${communes.isLast()}">
-                        <a class="page-link" th:href="|/?page=${page+1}&;search=${search}&;size=${size}&;sortDirection=&;sortProperty=|">
-                            &raquo;
+                        <a class="page-link" th:href="|/?page=${page+1}&search=${search}&size=${size}&sortDirection=${sortDirection}&sortProperty=${sortProperty}|">
+                        &raquo;
                         </a>
                     </li>
 

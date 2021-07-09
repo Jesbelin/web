@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -138,7 +139,13 @@ public class CommuneController {
      * @param perimetreEnKm Le périmètre de recherche en kilomètre
      * @return La liste des communes triées de la plus proche à la plus lointaine
      */
-    private List<Commune> findCommunesProches(Commune commune, Integer perimetreEnKm) {
+    private List<Commune> findCommunesProches(
+            Commune commune,
+            Integer perimetreEnKm) {
+        if(perimetreEnKm > 20){
+            throw new IllegalArgumentException("Le périmètre pour les communes proches est limité à 20km");
+        }
+
         Double latMin, latMax, longMin, longMax, degreLat, degreLong;
         //1 degré latitude = 111km, 1 degré longitude = 77km
         degreLat = perimetreEnKm/DEGRE_LAT_KM;

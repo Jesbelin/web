@@ -22,10 +22,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li><a href="/" class="nav-link">Liste des communes <span class="badge badge-primary" th:text="${@communeRepository.count()}"></span></a></li>
-                    <li></li>
                 </ul>
 
                 <form class="form-inline my-2 my-lg-0" role="search" action="/" method="GET">
+                    <div sec:authorize="isAuthenticated()">Bienvenue [[${#httpServletRequest.remoteUser}]]</div>
                     <div class="form-group">
                         <input name="search" value="" class="form-control" placeholder="Rechercher..." type="text">
                     </div>
