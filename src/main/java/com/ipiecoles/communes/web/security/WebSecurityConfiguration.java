@@ -72,11 +72,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")//Défaut : password
                 //Gestion de la déconnexion
                 .and().logout()
-                .permitAll();
+                .permitAll()
                 //Où va-t-on lorsque l'on souhaite se déconnecter ?
-                //.logoutUrl("/logout") //Défaut : /logout
+                .logoutUrl("/logout") //Défaut : /logout
                 //Où va-t-on une fois la déconnexion effectuée
-                //.logoutSuccessUrl("/login?logout=true"); //Défaut /login?logout
+                .logoutSuccessUrl("/login?logout=true"); //Défaut /login?logout
     }
 
     @Override
