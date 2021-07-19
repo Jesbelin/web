@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 @Controller
 public class IndexController {
@@ -33,10 +34,19 @@ public class IndexController {
         //Constituer un PageRequest
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortProperty);
         Page<Commune> communes;
+
+        Scanner sc = new Scanner(search);
+
         if(search == null || search.isEmpty()){
             //Appeler findAll si search est null
             communes = communeRepository.findAll(pageRequest);
-        } else {
+
+        } else if (sc.hasNextInt()){
+            // Si le search est un code insee (int) on affiche le détail de la commune
+            return "redirect:/communes/" + search;
+        }
+        else {
+
             //Appeler findByNomContainingIgnoreCase si search n'est pas null
             communes = communeRepository.findByNomContainingIgnoreCase(search, pageRequest);
         }
